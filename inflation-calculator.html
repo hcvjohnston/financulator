@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inflation Calculator — What Is My Money Worth? | Financulator</title>
+  <meta name="description" content="Free inflation calculator. See the real value of money over time. Calculate purchasing power changes, future costs, and inflation-adjusted returns.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a><a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Inflation Calculator</div></nav>
+<div class="page-hero"><h1>💹 Inflation Calculator</h1><p>Understand the real purchasing power of money over time.</p></div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Inflation Calculator</h2>
+      <p class="subtitle">See how inflation erodes purchasing power — or how much something will cost in the future.</p>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setMode(this,'future')">Future Cost</button>
+        <button class="tab-btn" onclick="setMode(this,'past')">Past Value (Today's $)</button>
+      </div>
+
+      <div id="mode-future">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="amount">Current Amount</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="amount" value="50000" min="1" step="1000" oninput="calculate()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="years">Years Into the Future</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="years" value="20" min="1" max="100" step="1" oninput="calculate()">
+              <span class="input-suffix">yrs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mode-past" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pastAmount">Historical Amount</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="pastAmount" value="10000" min="1" step="1000" oninput="calculate()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="pastYears">Years Ago</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="pastYears" value="20" min="1" max="100" step="1" oninput="calculate()">
+              <span class="input-suffix">yrs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="inflRate">Annual Inflation Rate</label>
+        <div class="input-wrap has-suffix">
+          <input type="number" id="inflRate" value="3.0" min="0.1" max="20" step="0.1" oninput="calculate()">
+          <span class="input-suffix">%</span>
+        </div>
+        <p style="font-size:.75rem;color:var(--muted);margin-top:.3rem;">US historical avg: 3.0–3.5% · Recent (2022–2024): 4.5% · Fed target: 2.0%</p>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label" id="primaryLabel">Future Value Needed</div>
+          <div class="result-value" id="primaryValue">—</div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Original Amount</div><div class="value" id="origAmt">—</div></div>
+          <div class="result-item"><div class="label">Purchasing Power Lost</div><div class="value neg" id="powerLost">—</div></div>
+          <div class="result-item"><div class="label">Total Inflation</div><div class="value neg" id="totalInflation">—</div></div>
+          <div class="result-item"><div class="label">Real Return Needed</div><div class="value" id="realReturn">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement</span></div></div>
+    <div class="info-section" style="padding:1rem 0 0;">
+      <div class="info-card"><h3>Why inflation matters for investors</h3><p>If your investments return 6% per year and inflation is 3%, your real return is only ≈3%. A savings account earning 1% during 3% inflation means you're actually losing purchasing power every year. Beating inflation is the minimum bar for any investment strategy.</p></div>
+      <div class="info-card"><h3>How the Fed targets 2% inflation</h3><p>The Federal Reserve aims for 2% annual inflation as the "Goldilocks" target — low enough that prices feel stable, but high enough to discourage hoarding cash and encourage investment and spending. When inflation runs hot (like 2022's 8%), the Fed raises interest rates to cool it down.</p></div>
+    </div>
+  </div>
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🛡 Beat Inflation</div>
+      <div class="affiliate-logo">I Bonds (TreasuryDirect)</div>
+      <div class="aff-detail">US government I Bonds are indexed to inflation. Currently yielding above the inflation rate.</div>
+      <div class="aff-rate">Inflation-<span>indexed rate</span></div>
+      <a href="https://www.treasurydirect.gov" target="_blank" rel="noopener" class="btn-aff">Buy at TreasuryDirect.gov →</a>
+      <p class="disclosure">* Direct government link. No affiliate fee on this one.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">📈 TIPS ETF (Inflation-Protected)</div>
+      <div class="affiliate-logo">Vanguard TIPS Fund</div>
+      <div class="aff-detail">Treasury Inflation-Protected Securities adjust with inflation. Zero-fee account to buy.</div>
+      <div class="aff-rate">$0 <span>to open</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('vanguard-tips')">Open Account →</a>
+      <p class="disclosure">* Financulator may earn a commission. Investing involves risk.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Inflation Tips</h4>
+      <ul class="tips-list">
+        <li>Cash sitting idle loses value — even 4% HYSA barely beats 3% inflation.</li>
+        <li>Real estate and stocks historically outpace inflation over long periods.</li>
+        <li>TIPS and I Bonds are government-backed inflation hedges.</li>
+        <li>Salary negotiations should always account for inflation erosion.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+let mode='future';
+function setMode(btn,m){
+  mode=m;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.getElementById('mode-future').style.display=m==='future'?'':'none';
+  document.getElementById('mode-past').style.display=m==='past'?'':'none';
+  calculate();
+}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function calculate(){
+  const r=(parseFloat(document.getElementById('inflRate').value)||3)/100;
+  let orig,yrs,future;
+  if(mode==='future'){
+    orig=parseFloat(document.getElementById('amount').value)||0;
+    yrs=parseInt(document.getElementById('years').value)||1;
+    future=orig*Math.pow(1+r,yrs);
+    document.getElementById('primaryLabel').textContent='Equivalent Future Amount';
+  } else {
+    orig=parseFloat(document.getElementById('pastAmount').value)||0;
+    yrs=parseInt(document.getElementById('pastYears').value)||1;
+    future=orig*Math.pow(1+r,yrs);
+    document.getElementById('primaryLabel').textContent='Value in Today\'s Dollars';
+  }
+  const pctLost=((future-orig)/orig*100).toFixed(1);
+  document.getElementById('primaryValue').textContent=fmt(future);
+  document.getElementById('origAmt').textContent=fmt(orig);
+  document.getElementById('powerLost').textContent=fmt(future-orig)+' ('+pctLost+'%)';
+  document.getElementById('totalInflation').textContent=pctLost+'%';
+  document.getElementById('realReturn').textContent='>'+(r*100).toFixed(1)+'%/yr to preserve value';
+  document.getElementById('resultBox').classList.add('visible');
+}
+function trackAff(id){console.log('Aff:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body></html>

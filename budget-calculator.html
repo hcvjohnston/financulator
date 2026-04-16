@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Calculator — 50/30/20 Rule | Financulator</title>
+  <meta name="description" content="Free 50/30/20 budget calculator. Enter your income and see exactly how much to spend on needs, wants, and savings every month.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a><a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Budget Calculator</div></nav>
+<div class="page-hero"><h1>📊 Budget Calculator</h1><p>Apply the 50/30/20 rule and see exactly where every dollar should go.</p></div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>50/30/20 Budget Calculator</h2>
+      <p class="subtitle">The simplest, most proven framework for personal budgeting.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="grossIncome">Monthly Gross Income</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="grossIncome" value="6000" min="0" step="100" oninput="calculate()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="taxRate">Estimated Tax Rate</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="taxRate" value="22" min="0" max="50" step="1" oninput="calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="needsPct">Needs %</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="needsPct" value="50" min="10" max="80" step="5" oninput="calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="wantsPct">Wants %</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="wantsPct" value="30" min="5" max="60" step="5" oninput="calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Build My Budget</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label">Monthly Take-Home Pay</div>
+          <div class="result-value" id="takehome">—</div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label" id="needsLabel">Needs (50%)</div><div class="value" id="needsAmt">—</div></div>
+          <div class="result-item"><div class="label" id="wantsLabel">Wants (30%)</div><div class="value" id="wantsAmt">—</div></div>
+          <div class="result-item"><div class="label" id="savingsLabel">Savings (20%)</div><div class="value pos" id="savingsAmt">—</div></div>
+          <div class="result-item"><div class="label">Yearly Savings</div><div class="value pos" id="yearlySavings">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Needs breakdown -->
+    <div class="calc-box mt-3" id="breakdownBox" style="display:none;">
+      <h3 style="margin-bottom:1.2rem;">Budget Breakdown</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;">
+        <div>
+          <div style="background:#f0f4ff;border-radius:10px;padding:1rem;margin-bottom:1rem;">
+            <div style="font-weight:700;color:var(--navy);margin-bottom:.6rem;">🏠 Needs — <span id="needsBkLabel">50%</span></div>
+            <div id="needsItems" style="font-size:.85rem;color:#3d4f73;line-height:2;"></div>
+          </div>
+          <div style="background:#fff0f0;border-radius:10px;padding:1rem;">
+            <div style="font-weight:700;color:var(--navy);margin-bottom:.6rem;">🎉 Wants — <span id="wantsBkLabel">30%</span></div>
+            <div id="wantsItems" style="font-size:.85rem;color:#3d4f73;line-height:2;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="background:#f0fff4;border-radius:10px;padding:1rem;margin-bottom:1rem;">
+            <div style="font-weight:700;color:var(--navy);margin-bottom:.6rem;">💰 Savings — <span id="savingsBkLabel">20%</span></div>
+            <div id="savingsItems" style="font-size:.85rem;color:#3d4f73;line-height:2;"></div>
+          </div>
+          <canvas id="budgetChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement — Responsive</span></div></div>
+
+    <div class="info-section" style="padding:1rem 0 0;">
+      <h2 style="margin-bottom:1.2rem;">The 50/30/20 Rule Explained</h2>
+      <div class="info-card"><h3>What counts as "Needs"?</h3><p>Needs are expenses required for basic living: housing, utilities, groceries, minimum debt payments, insurance, transportation to work. If you couldn't eliminate it without significant hardship, it's likely a need. Target: 50% of take-home pay or less.</p></div>
+      <div class="info-card"><h3>What counts as "Wants"?</h3><p>Wants are lifestyle upgrades — dining out, streaming subscriptions, gym memberships, hobbies, travel, and anything beyond basic needs. These aren't bad — they're part of a fulfilling life. The goal is to keep them at or below 30% of your take-home pay.</p></div>
+      <div class="info-card"><h3>The 20% savings rule</h3><p>This covers everything savings: emergency fund, retirement contributions, paying down extra debt, and long-term investment. Many financial planners argue you should aim higher than 20% if you started saving late. Even 15% invested consistently from age 25 typically leads to a comfortable retirement.</p></div>
+    </div>
+  </div>
+
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">📱 Track Your Budget</div>
+      <div class="affiliate-logo">YNAB</div>
+      <div class="aff-detail">You Need A Budget — the highest-rated budgeting app. Avg users save $600 in first 2 months.</div>
+      <div class="aff-rate">Free <span>34-day trial</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('ynab')">Try Free for 34 Days →</a>
+      <p class="disclosure">* Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">💰 Put Savings to Work</div>
+      <div class="affiliate-logo">Marcus HYSA</div>
+      <div class="aff-detail">Park your savings category here for 4.50% APY. No fees, no minimums.</div>
+      <div class="aff-rate">4.50% <span>APY</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('marcus-budget')">Open Free Account →</a>
+      <p class="disclosure">* FDIC insured. Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Budgeting Tips</h4>
+      <ul class="tips-list">
+        <li>Pay yourself first — automate savings before you can spend it.</li>
+        <li>Track spending for 30 days before making a budget — surprises happen.</li>
+        <li>Cancel unused subscriptions — average American wastes $200/mo.</li>
+        <li>Use cash envelopes for variable spending like dining and entertainment.</li>
+        <li>Review your budget monthly — life changes, and so should your plan.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+let bChart=null;
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function calculate(){
+  const gross=parseFloat(document.getElementById('grossIncome').value)||0;
+  const tax=(parseFloat(document.getElementById('taxRate').value)||0)/100;
+  const needsPct=(parseFloat(document.getElementById('needsPct').value)||50)/100;
+  const wantsPct=(parseFloat(document.getElementById('wantsPct').value)||30)/100;
+  const savPct=Math.max(1-(needsPct+wantsPct),0);
+  const net=gross*(1-tax);
+  const needs=net*needsPct, wants=net*wantsPct, savings=net*savPct;
+
+  document.getElementById('takehome').textContent=fmt(net)+'/mo';
+  document.getElementById('needsLabel').textContent='Needs ('+Math.round(needsPct*100)+'%)';
+  document.getElementById('wantsLabel').textContent='Wants ('+Math.round(wantsPct*100)+'%)';
+  document.getElementById('savingsLabel').textContent='Savings ('+Math.round(savPct*100)+'%)';
+  document.getElementById('needsAmt').textContent=fmt(needs);
+  document.getElementById('wantsAmt').textContent=fmt(wants);
+  document.getElementById('savingsAmt').textContent=fmt(savings);
+  document.getElementById('yearlySavings').textContent=fmt(savings*12);
+  document.getElementById('resultBox').classList.add('visible');
+
+  document.getElementById('breakdownBox').style.display='block';
+  document.getElementById('needsBkLabel').textContent=Math.round(needsPct*100)+'%';
+  document.getElementById('wantsBkLabel').textContent=Math.round(wantsPct*100)+'%';
+  document.getElementById('savingsBkLabel').textContent=Math.round(savPct*100)+'%';
+
+  document.getElementById('needsItems').innerHTML=
+    `Housing/Rent: ${fmt(needs*.35)}<br>Transportation: ${fmt(needs*.18)}<br>Food (groceries): ${fmt(needs*.15)}<br>Utilities: ${fmt(needs*.08)}<br>Insurance: ${fmt(needs*.12)}<br>Min. Debt Payments: ${fmt(needs*.12)}`;
+  document.getElementById('wantsItems').innerHTML=
+    `Dining Out: ${fmt(wants*.25)}<br>Entertainment: ${fmt(wants*.20)}<br>Shopping: ${fmt(wants*.20)}<br>Subscriptions: ${fmt(wants*.10)}<br>Hobbies: ${fmt(wants*.15)}<br>Travel/Vacations: ${fmt(wants*.10)}`;
+  document.getElementById('savingsItems').innerHTML=
+    `Emergency Fund: ${fmt(savings*.30)}<br>Retirement (401k/IRA): ${fmt(savings*.40)}<br>Investment Account: ${fmt(savings*.20)}<br>Debt Payoff (extra): ${fmt(savings*.10)}`;
+
+  const ctx=document.getElementById('budgetChart').getContext('2d');
+  if(bChart)bChart.destroy();
+  bChart=new Chart(ctx,{type:'doughnut',data:{labels:['Needs','Wants','Savings'],datasets:[{data:[Math.round(needs),Math.round(wants),Math.round(savings)],backgroundColor:['#4f46e5','#f5a623','#22c55e'],borderWidth:0}]},options:{plugins:{legend:{position:'bottom'}},cutout:'60%'}});
+}
+function trackAff(id){console.log('Aff:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body></html>

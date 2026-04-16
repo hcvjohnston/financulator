@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savings Goal Calculator — How Long to Reach Your Goal | Financulator</title>
+  <meta name="description" content="Free savings calculator. Find out how long it takes to reach your savings goal, or how much you need to save each month to get there on time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a><a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Savings Goal Calculator</div></nav>
+<div class="page-hero"><h1>🏦 Savings Goal Calculator</h1><p>Find out exactly how long it takes to reach your savings goal — or reverse it to find your required monthly savings.</p></div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Savings Goal Calculator</h2>
+      <p class="subtitle">Two modes: find when you'll hit your goal, or how much to save monthly.</p>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setMode(this,'time')">How Long Will It Take?</button>
+        <button class="tab-btn" onclick="setMode(this,'amount')">How Much Should I Save?</button>
+      </div>
+
+      <div id="mode-time">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="savGoal">Savings Goal</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="savGoal" value="20000" min="100" step="500" oninput="calculate()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="savStart">Current Savings</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="savStart" value="2000" min="0" step="100" oninput="calculate()">
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="savMonthly">Monthly Contribution</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="savMonthly" value="500" min="1" step="50" oninput="calculate()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="savRate">Annual Interest Rate</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="savRate" value="4.5" min="0" max="20" step="0.1" oninput="calculate()">
+              <span class="input-suffix">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mode-amount" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="amtGoal">Savings Goal</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="amtGoal" value="20000" min="100" step="500" oninput="calculate()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="amtStart">Current Savings</label>
+            <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+              <input type="number" id="amtStart" value="2000" min="0" step="100" oninput="calculate()">
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="amtMonths">Target Timeframe</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="amtMonths" value="36" min="1" step="1" oninput="calculate()">
+              <span class="input-suffix">mo</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="amtRate">Annual Interest Rate</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="amtRate" value="4.5" min="0" max="20" step="0.1" oninput="calculate()">
+              <span class="input-suffix">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label" id="primaryLabel">Time to Goal</div>
+          <div class="result-value" id="primaryValue">—</div>
+          <div class="result-sub" id="primarySub"></div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Total Contributed</div><div class="value" id="contribTotal">—</div></div>
+          <div class="result-item"><div class="label">Interest Earned</div><div class="value pos" id="interestEarned">—</div></div>
+          <div class="result-item"><div class="label">Goal Amount</div><div class="value" id="goalDisplay">—</div></div>
+          <div class="result-item"><div class="label">Goal Date</div><div class="value" id="goalDate">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-container" id="chartBox" style="display:none;">
+      <h4>Savings Progress Over Time</h4>
+      <canvas id="savingsChart" height="300"></canvas>
+    </div>
+
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement — Responsive</span></div></div>
+
+    <div class="info-section" style="padding:1rem 0 0;">
+      <h2 style="margin-bottom:1.2rem;">Smart Savings Strategies</h2>
+      <div class="info-card"><h3>The power of automating your savings</h3><p>Setting up an automatic transfer on payday removes the temptation to spend first and save what's left. Studies show automated savers save 40% more on average than those who manually transfer money. Set it, forget it, and watch your goal approach.</p></div>
+      <div class="info-card"><h3>High-yield savings vs regular savings account</h3><p>Traditional savings accounts at big banks often pay just 0.01%–0.1% APY. High-yield savings accounts at online banks currently offer 4%–5% APY — that's 40–500× more. On a $10,000 balance, that's the difference between $10 and $450 in annual interest, completely passively.</p></div>
+    </div>
+  </div>
+
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">💰 Best HYSA Rate</div>
+      <div class="affiliate-logo">SoFi Savings</div>
+      <div class="aff-detail">Earn up to 4.60% APY with direct deposit. No minimums.</div>
+      <div class="aff-rate">4.60% <span>APY</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('sofi-savings')">Open Account Free →</a>
+      <p class="disclosure">* FDIC insured. Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">📈 Earn More — Invest the Rest</div>
+      <div class="affiliate-logo">Betterment</div>
+      <div class="aff-detail">Automated investing. Cash reserve earns 4.75% APY.</div>
+      <div class="aff-rate">4.75% <span>Cash APY</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('betterment')">Get Started →</a>
+      <p class="disclosure">* Investing involves risk. Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Savings Tips</h4>
+      <ul class="tips-list">
+        <li>Build a 3–6 month emergency fund before investing.</li>
+        <li>Open a dedicated account for each savings goal to avoid raiding funds.</li>
+        <li>Automate transfers on payday — treat savings like a bill.</li>
+        <li>Round-up apps add fractional amounts to savings automatically.</li>
+        <li>A raise is the perfect time to increase your savings rate.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+let savChart=null, currentMode='time';
+function setMode(btn,mode){
+  currentMode=mode;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.getElementById('mode-time').style.display=mode==='time'?'':'none';
+  document.getElementById('mode-amount').style.display=mode==='amount'?'':'none';
+  calculate();
+}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+
+function calculate(){
+  if(currentMode==='time'){
+    const goal=parseFloat(document.getElementById('savGoal').value)||0;
+    const start=parseFloat(document.getElementById('savStart').value)||0;
+    const pmt=parseFloat(document.getElementById('savMonthly').value)||1;
+    const r=(parseFloat(document.getElementById('savRate').value)||0)/100/12;
+    let bal=start, months=0;
+    while(bal<goal && months<1200){ bal=bal*(1+r)+pmt; months++; }
+    const yrs=Math.floor(months/12), mos=months%12;
+    const totalContrib=start+pmt*months;
+    const interestEarned=bal-totalContrib;
+    const goalDate=new Date(); goalDate.setMonth(goalDate.getMonth()+months);
+    document.getElementById('primaryLabel').textContent='Time to Goal';
+    document.getElementById('primaryValue').textContent=(yrs>0?yrs+' yr'+(yrs!==1?'s ':' '):'')+mos+' mo';
+    document.getElementById('primarySub').textContent=months>=1200?'Goal not reachable at current rate':'You\'ll hit your goal in '+months+' payments';
+    document.getElementById('contribTotal').textContent=fmt(totalContrib);
+    document.getElementById('interestEarned').textContent=fmt(interestEarned);
+    document.getElementById('goalDisplay').textContent=fmt(goal);
+    document.getElementById('goalDate').textContent=goalDate.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+    document.getElementById('resultBox').classList.add('visible');
+    buildChart(start,pmt,(parseFloat(document.getElementById('savRate').value)||0)/100/12,months,goal);
+  } else {
+    const goal=parseFloat(document.getElementById('amtGoal').value)||0;
+    const start=parseFloat(document.getElementById('amtStart').value)||0;
+    const n=parseInt(document.getElementById('amtMonths').value)||1;
+    const r=(parseFloat(document.getElementById('amtRate').value)||0)/100/12;
+    const remaining=goal-start*Math.pow(1+r,n);
+    const pmt=r>0 ? remaining*r/(Math.pow(1+r,n)-1) : remaining/n;
+    const totalContrib=start+pmt*n;
+    const interestEarned=goal-totalContrib;
+    const goalDate=new Date(); goalDate.setMonth(goalDate.getMonth()+n);
+    document.getElementById('primaryLabel').textContent='Monthly Savings Needed';
+    document.getElementById('primaryValue').textContent='$'+Math.max(pmt,0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('primarySub').textContent='To reach '+fmt(goal)+' in '+n+' months';
+    document.getElementById('contribTotal').textContent=fmt(totalContrib);
+    document.getElementById('interestEarned').textContent=fmt(Math.max(interestEarned,0));
+    document.getElementById('goalDisplay').textContent=fmt(goal);
+    document.getElementById('goalDate').textContent=goalDate.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+    document.getElementById('resultBox').classList.add('visible');
+    buildChart(start,Math.max(pmt,0),r,n,goal);
+  }
+}
+
+function buildChart(start,pmt,r,months,goal){
+  document.getElementById('chartBox').style.display='block';
+  const labels=[],balances=[],goalLine=[];
+  let bal=start;
+  labels.push('Now'); balances.push(Math.round(bal)); goalLine.push(goal);
+  for(let m=1;m<=Math.min(months,120);m++){
+    bal=bal*(1+r)+pmt;
+    if(m%(Math.ceil(months/24))===0||m===months){labels.push('Mo '+m); balances.push(Math.round(bal)); goalLine.push(goal);}
+  }
+  const ctx=document.getElementById('savingsChart').getContext('2d');
+  if(savChart)savChart.destroy();
+  savChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'Balance',data:balances,borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,.15)',fill:true,tension:.3},
+    {label:'Goal',data:goalLine,borderColor:'#22c55e',borderDash:[6,4],fill:false,pointRadius:0}
+  ]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString()}}}}});
+}
+function trackAff(id){console.log('Aff:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body></html>

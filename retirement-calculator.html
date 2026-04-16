@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retirement Calculator — Will You Have Enough? | Financulator</title>
+  <meta name="description" content="Free retirement calculator. Project your nest egg, see if you're on track, and find out how much to save monthly to retire comfortably.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a><a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Retirement Calculator</div></nav>
+<div class="page-hero"><h1>🌴 Retirement Calculator</h1><p>Find out if you're on track for retirement — and what to do if you're not.</p></div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Retirement Nest Egg Calculator</h2>
+      <p class="subtitle">Project your total retirement savings based on your current situation.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="currentAge">Current Age</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="currentAge" value="35" min="18" max="80" step="1" oninput="calculate()">
+            <span class="input-suffix">yrs</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="retireAge">Retirement Age</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="retireAge" value="65" min="40" max="90" step="1" oninput="calculate()">
+            <span class="input-suffix">yrs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="currentSavings">Current Retirement Savings</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="currentSavings" value="75000" min="0" step="1000" oninput="calculate()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="monthlyContrib">Monthly Contribution</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="monthlyContrib" value="800" min="0" step="50" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="retireRate">Expected Annual Return</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="retireRate" value="7" min="1" max="20" step="0.1" oninput="calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="retireIncome">Desired Monthly Retirement Income</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="retireIncome" value="5000" min="500" step="250" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Analyze My Retirement</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label">Projected Nest Egg at Retirement</div>
+          <div class="result-value" id="nestEgg">—</div>
+          <div class="result-sub" id="nestSub"></div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Years to Retire</div><div class="value" id="yearsLeft">—</div></div>
+          <div class="result-item"><div class="label">Nest Egg Needed</div><div class="value" id="neededAmt">—</div></div>
+          <div class="result-item"><div class="label">Monthly Withdrawal</div><div class="value pos" id="monthlyWithdraw">—</div></div>
+          <div class="result-item"><div class="label">Status</div><div class="value" id="onTrack">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-container" id="chartBox" style="display:none;">
+      <h4>Retirement Portfolio Growth</h4>
+      <canvas id="retireChart" height="300"></canvas>
+    </div>
+
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement — Responsive</span></div></div>
+
+    <div class="info-section" style="padding:1rem 0 0;">
+      <h2 style="margin-bottom:1.2rem;">Retirement Planning Fundamentals</h2>
+      <div class="info-card"><h3>The 4% Rule — How much do you need?</h3><p>The widely cited "4% rule" states you can safely withdraw 4% of your portfolio per year in retirement without running out of money over a 30-year period. That means to generate $5,000/month ($60,000/year), you need a nest egg of $1.5 million. Use this as a starting point, not a guarantee.</p></div>
+      <div class="info-card"><h3>401(k) vs Roth IRA — which is better?</h3><p>Traditional 401(k) and IRA contributions reduce your taxable income now — you pay taxes when you withdraw in retirement. Roth accounts use after-tax dollars now, but withdrawals in retirement are completely tax-free. If you expect to be in a higher tax bracket in retirement, Roth wins. Many advisors recommend a mix of both.</p></div>
+      <div class="info-card"><h3>Employer match: the guaranteed 50–100% return</h3><p>If your employer matches your 401(k) contributions, contributing at least enough to get the full match is the highest-returning "investment" available to you. A 50% match is an instant 50% return before any market growth. Never leave this on the table.</p></div>
+    </div>
+  </div>
+
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🌴 Top Retirement Account</div>
+      <div class="affiliate-logo">Fidelity Roth IRA</div>
+      <div class="aff-detail">$0 to open, $0 commissions, access to thousands of investments.</div>
+      <div class="aff-rate">$0 <span>to open</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('fidelity-roth')">Open Roth IRA →</a>
+      <p class="disclosure">* Investing involves risk. Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🤖 Automated Retirement</div>
+      <div class="affiliate-logo">Betterment IRA</div>
+      <div class="aff-detail">Set your retirement date and let Betterment auto-invest for you.</div>
+      <div class="aff-rate">0.25% <span>annual fee</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('betterment-ira')">Start Auto-Investing →</a>
+      <p class="disclosure">* Financulator may earn a commission. Investing involves risk.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Retirement Tips</h4>
+      <ul class="tips-list">
+        <li>Always contribute at least enough to get your full employer match.</li>
+        <li>2026 401(k) limit: $23,500. IRA limit: $7,000 ($8,000 if 50+).</li>
+        <li>Increase contributions by 1% each year — you won't notice it.</li>
+        <li>Keep expense ratios under 0.20% — fees compound just like gains.</li>
+        <li>Don't panic sell during market downturns — time in market wins.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+let retireChart=null;
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+
+function calculate(){
+  const curAge=parseInt(document.getElementById('currentAge').value)||35;
+  const retAge=parseInt(document.getElementById('retireAge').value)||65;
+  const savings=parseFloat(document.getElementById('currentSavings').value)||0;
+  const monthly=parseFloat(document.getElementById('monthlyContrib').value)||0;
+  const rate=(parseFloat(document.getElementById('retireRate').value)||7)/100;
+  const income=parseFloat(document.getElementById('retireIncome').value)||5000;
+  const years=Math.max(retAge-curAge,1);
+  const n=years*12;
+  const r=rate/12;
+  const fvSavings=savings*Math.pow(1+r,n);
+  const fvContrib=monthly*(Math.pow(1+r,n)-1)/r;
+  const nestEgg=fvSavings+fvContrib;
+  const neededAmt=(income*12)/0.04; // 4% rule
+  const monthlyWithdraw=nestEgg*0.04/12;
+  const onTrack=nestEgg>=neededAmt;
+
+  document.getElementById('nestEgg').textContent=fmt(nestEgg);
+  document.getElementById('nestSub').textContent=`Projected at age ${retAge} with ${rate*100}% annual return`;
+  document.getElementById('yearsLeft').textContent=years+' years';
+  document.getElementById('neededAmt').textContent=fmt(neededAmt);
+  document.getElementById('monthlyWithdraw').textContent=fmt(monthlyWithdraw)+'/mo';
+  const trackEl=document.getElementById('onTrack');
+  trackEl.textContent=onTrack?'✅ On Track':'⚠️ Gap: '+fmt(neededAmt-nestEgg);
+  trackEl.className='value '+(onTrack?'pos':'neg');
+  document.getElementById('resultBox').classList.add('visible');
+  buildChart(savings,monthly,r,years,neededAmt);
+}
+
+function buildChart(savings,monthly,r,years,needed){
+  document.getElementById('chartBox').style.display='block';
+  const labels=[],values=[],needLine=[];
+  let bal=savings;
+  labels.push('Now'); values.push(Math.round(bal)); needLine.push(needed);
+  for(let y=1;y<=years;y++){
+    for(let m=0;m<12;m++){bal=bal*(1+r)+monthly;}
+    labels.push('Age '+(parseInt(document.getElementById('currentAge').value)+y));
+    values.push(Math.round(bal)); needLine.push(needed);
+  }
+  const ctx=document.getElementById('retireChart').getContext('2d');
+  if(retireChart)retireChart.destroy();
+  retireChart=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {label:'Projected Portfolio',data:values,borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,.1)',fill:true,tension:.3},
+    {label:'Goal Needed (4% Rule)',data:needLine,borderColor:'#22c55e',borderDash:[6,4],fill:false,pointRadius:0}
+  ]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>{if(v>=1000000)return '$'+(v/1000000).toFixed(1)+'M';return '$'+v.toLocaleString();}}}}}});
+}
+function trackAff(id){console.log('Aff:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body></html>

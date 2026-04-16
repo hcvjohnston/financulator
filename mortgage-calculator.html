@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Calculator — Monthly Payment & Amortization | Financulator</title>
+  <meta name="description" content="Free mortgage calculator. Instantly calculate your monthly payment, total interest, and see a full amortization schedule. Includes PMI, taxes, and insurance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Mortgage Calculator","url":"https://financulator.io/mortgage-calculator.html","applicationCategory":"FinanceApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a>
+      <a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a>
+      <a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+    <div class="hamburger" onclick="document.querySelector('.mobile-nav').classList.add('open')"><span></span><span></span><span></span></div>
+  </div>
+</header>
+<div class="mobile-nav">
+  <button class="close-btn" onclick="this.closest('.mobile-nav').classList.remove('open')">✕</button>
+  <a href="mortgage-calculator.html">Mortgage</a>
+  <a href="loan-calculator.html">Loans</a>
+  <a href="savings-calculator.html">Savings</a>
+  <a href="retirement-calculator.html">Retirement</a>
+</div>
+
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Mortgage Calculator</div></nav>
+
+<div class="page-hero">
+  <h1>🏠 Mortgage Calculator</h1>
+  <p>Calculate your monthly payment, total interest, and see your full amortization schedule in seconds.</p>
+</div>
+
+<!-- TOP AD -->
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="ad-banner ad-banner-wide">
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins> -->
+      <span>Advertisement — 728×90</span>
+    </div>
+  </div>
+</div>
+
+<div class="calc-page">
+
+  <!-- ── MAIN CALCULATOR ── -->
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Mortgage Calculator</h2>
+      <p class="subtitle">Adjust the sliders or type values to see your results instantly.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="homePrice">Home Price</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">$</span>
+            <input type="number" id="homePrice" value="400000" min="50000" max="5000000" step="5000" oninput="syncSlider('homePrice','sliderPrice'); calculate()">
+          </div>
+          <input type="range" id="sliderPrice" min="50000" max="2000000" step="5000" value="400000" oninput="syncInput('sliderPrice','homePrice'); calculate()">
+          <div class="range-labels"><span>$50k</span><span>$2M</span></div>
+        </div>
+        <div class="form-group">
+          <label for="downPayment">Down Payment</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">$</span>
+            <input type="number" id="downPayment" value="80000" min="0" max="2000000" step="1000" oninput="syncSlider('downPayment','sliderDown'); calculate()">
+          </div>
+          <input type="range" id="sliderDown" min="0" max="800000" step="1000" value="80000" oninput="syncInput('sliderDown','downPayment'); calculate()">
+          <div class="range-labels"><span>$0</span><span>$800k</span></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="interestRate">Interest Rate (APR)</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="interestRate" value="6.8" min="1" max="20" step="0.05" oninput="syncSlider('interestRate','sliderRate'); calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+          <input type="range" id="sliderRate" min="1" max="15" step="0.05" value="6.8" oninput="syncInput('sliderRate','interestRate'); calculate()">
+          <div class="range-labels"><span>1%</span><span>15%</span></div>
+        </div>
+        <div class="form-group">
+          <label for="loanTerm">Loan Term</label>
+          <select id="loanTerm" onchange="calculate()">
+            <option value="30" selected>30 Years</option>
+            <option value="20">20 Years</option>
+            <option value="15">15 Years</option>
+            <option value="10">10 Years</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Optional extras -->
+      <div class="tab-bar" style="margin-top:.5rem;">
+        <button class="tab-btn active" onclick="switchTab(this,'basic')">Basic</button>
+        <button class="tab-btn" onclick="switchTab(this,'advanced')">+ Taxes & Insurance</button>
+      </div>
+
+      <div id="tab-basic" class="tab-content active"></div>
+
+      <div id="tab-advanced" class="tab-content">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="propertyTax">Annual Property Tax</label>
+            <div class="input-wrap has-prefix">
+              <span class="input-prefix">$</span>
+              <input type="number" id="propertyTax" value="4800" min="0" step="100" oninput="calculate()">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="homeInsurance">Annual Home Insurance</label>
+            <div class="input-wrap has-prefix">
+              <span class="input-prefix">$</span>
+              <input type="number" id="homeInsurance" value="1200" min="0" step="100" oninput="calculate()">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pmi">Monthly PMI (if down payment &lt; 20%)</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">$</span>
+            <input type="number" id="pmi" value="0" min="0" step="10" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate Payment</button>
+
+      <!-- RESULTS -->
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label">Monthly Payment (P&I)</div>
+          <div class="result-value" id="monthlyPayment">—</div>
+          <div class="result-sub" id="totalMonthly"></div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="label">Loan Amount</div>
+            <div class="value" id="loanAmount">—</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Total Interest</div>
+            <div class="value neg" id="totalInterest">—</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Total Cost</div>
+            <div class="value" id="totalCost">—</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Payoff Date</div>
+            <div class="value" id="payoffDate">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-container" id="chartBox" style="display:none;">
+      <h4>Payment Breakdown</h4>
+      <div style="max-width:320px;margin:0 auto;">
+        <canvas id="breakdownChart"></canvas>
+      </div>
+    </div>
+
+    <!-- AMORTIZATION TABLE -->
+    <div id="amortBox" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:1.5rem 0 .8rem;">
+        <h3>Amortization Schedule</h3>
+        <div class="tab-bar" style="margin:0;">
+          <button class="tab-btn active" id="btnYearly" onclick="showAmort('yearly')">Yearly</button>
+          <button class="tab-btn" id="btnMonthly" onclick="showAmort('monthly')">Monthly</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="amortTable">
+          <thead>
+            <tr><th>#</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr>
+          </thead>
+          <tbody id="amortBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AD BETWEEN RESULTS AND CONTENT -->
+    <div style="margin:2rem 0;">
+      <div class="ad-banner">
+        <!-- <ins class="adsbygoogle" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" style="display:block" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+        <span>Advertisement — Responsive</span>
+      </div>
+    </div>
+
+    <!-- EDUCATIONAL CONTENT (SEO) -->
+    <div class="info-section" style="padding-left:0;padding-right:0;">
+      <h2 style="margin-bottom:1.2rem;">How to Use This Mortgage Calculator</h2>
+      <div class="info-card">
+        <h3>What is included in a mortgage payment?</h3>
+        <p>A standard mortgage payment includes <strong>principal</strong> (reducing your loan balance) and <strong>interest</strong> (the cost of borrowing). If you enable the advanced options, you can also include property tax, homeowner's insurance, and PMI — together known as PITI.</p>
+      </div>
+      <div class="info-card">
+        <h3>How does a 15-year vs 30-year mortgage compare?</h3>
+        <p>A 15-year mortgage has higher monthly payments but dramatically lower total interest — often saving $100,000 or more on a typical home. A 30-year loan offers lower monthly payments and more financial flexibility, but you pay significantly more over the life of the loan.</p>
+      </div>
+      <div class="info-card">
+        <h3>What is PMI?</h3>
+        <p>Private Mortgage Insurance (PMI) is typically required when your down payment is less than 20% of the home price. It protects the lender — not you — and usually costs 0.5%–1.5% of the loan amount annually. PMI can be removed once you reach 20% equity in your home.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <div class="calc-sidebar">
+
+    <!-- Affiliate: High-yield savings for down payment -->
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🏆 Partner Offer</div>
+      <div class="affiliate-logo">SoFi Mortgage</div>
+      <div class="aff-detail">Competitive rates, no hidden fees, and fast online approval.</div>
+      <div class="aff-rate">From 6.49% <span>APR</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('sofi-mortgage')">Check My Rate →</a>
+      <p class="disclosure">* Financulator may earn a commission. Rates subject to change.</p>
+    </div>
+
+    <!-- Affiliate: HYSA for down payment savings -->
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">💰 Save for Your Down Payment</div>
+      <div class="affiliate-logo">Marcus by Goldman Sachs</div>
+      <div class="aff-detail">High-yield savings account. No minimum deposit, no fees.</div>
+      <div class="aff-rate">4.50% <span>APY</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('marcus-hysa')">Open Account →</a>
+      <p class="disclosure">* Financulator may earn a commission. FDIC insured.</p>
+    </div>
+
+    <!-- Tips -->
+    <div class="sidebar-card">
+      <h4>💡 Mortgage Tips</h4>
+      <ul class="tips-list">
+        <li>A 20% down payment eliminates PMI and can save thousands per year.</li>
+        <li>Even 0.5% lower rate saves $20k+ over the life of a $400k loan.</li>
+        <li>Extra principal payments drastically reduce interest paid.</li>
+        <li>Shop at least 3 lenders — rates vary more than most people realize.</li>
+        <li>Your DTI (debt-to-income) ratio matters as much as your credit score.</li>
+      </ul>
+    </div>
+
+    <!-- AD -->
+    <div class="ad-banner ad-banner-square">
+      <!-- <ins class="adsbygoogle" style="display:block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins> -->
+      <span>300×250 Ad</span>
+    </div>
+  </div>
+
+</div><!-- /calc-page -->
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+      <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+let breakdownChartInst = null;
+
+function syncInput(sliderId, inputId) {
+  document.getElementById(inputId).value = document.getElementById(sliderId).value;
+}
+function syncSlider(inputId, sliderId) {
+  const v = parseFloat(document.getElementById(inputId).value);
+  const slider = document.getElementById(sliderId);
+  if (!isNaN(v)) slider.value = Math.min(Math.max(v, slider.min), slider.max);
+}
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+  calculate();
+}
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtDec(n) { return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function calculate() {
+  const price    = parseFloat(document.getElementById('homePrice').value) || 0;
+  const down     = parseFloat(document.getElementById('downPayment').value) || 0;
+  const rate     = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
+  const term     = parseInt(document.getElementById('loanTerm').value);
+  const n        = term * 12;
+  const loan     = Math.max(price - down, 0);
+  const tax      = (parseFloat(document.getElementById('propertyTax').value) || 0) / 12;
+  const ins      = (parseFloat(document.getElementById('homeInsurance').value) || 0) / 12;
+  const pmi      = parseFloat(document.getElementById('pmi').value) || 0;
+
+  if (loan <= 0 || rate <= 0) return;
+
+  const monthly = loan * (rate * Math.pow(1+rate,n)) / (Math.pow(1+rate,n) - 1);
+  const totalPI  = monthly * n;
+  const totalInt = totalPI - loan;
+  const totalMonthly = monthly + tax + ins + pmi;
+
+  const payoffDate = new Date();
+  payoffDate.setMonth(payoffDate.getMonth() + n);
+
+  document.getElementById('monthlyPayment').textContent = fmtDec(monthly);
+  document.getElementById('totalMonthly').textContent   = tax+ins+pmi > 0 ? `Total with T&I: ${fmtDec(totalMonthly)}/mo` : '';
+  document.getElementById('loanAmount').textContent     = fmt(loan);
+  document.getElementById('totalInterest').textContent  = fmt(totalInt);
+  document.getElementById('totalCost').textContent      = fmt(totalPI + down);
+  document.getElementById('payoffDate').textContent     = payoffDate.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+  document.getElementById('resultBox').classList.add('visible');
+
+  buildChart(loan, totalInt, (tax+ins+pmi)*n);
+  buildAmort(loan, rate, monthly, n);
+  document.getElementById('amortBox').style.display  = 'block';
+}
+
+function buildChart(principal, interest, other) {
+  document.getElementById('chartBox').style.display = 'block';
+  const ctx = document.getElementById('breakdownChart').getContext('2d');
+  if (breakdownChartInst) breakdownChartInst.destroy();
+  const data = other > 0
+    ? { labels:['Principal','Interest','Tax & Insurance'], datasets:[{data:[principal,interest,other], backgroundColor:['#1a2744','#f5a623','#22c55e'], borderWidth:0}] }
+    : { labels:['Principal','Interest'], datasets:[{data:[principal,interest], backgroundColor:['#1a2744','#f5a623'], borderWidth:0}] };
+  breakdownChartInst = new Chart(ctx, { type:'doughnut', data, options:{ plugins:{ legend:{ position:'bottom' } }, cutout:'65%' } });
+}
+
+function buildAmort(loan, rate, monthly, n) {
+  window._amortData = [];
+  let bal = loan;
+  for (let i=1; i<=n; i++) {
+    const int  = bal * rate;
+    const prin = monthly - int;
+    bal = Math.max(bal - prin, 0);
+    window._amortData.push({month:i, payment:monthly, principal:prin, interest:int, balance:bal});
+  }
+  showAmort('yearly');
+}
+
+function showAmort(type) {
+  document.getElementById('btnYearly').className  = 'tab-btn' + (type==='yearly'?' active':'');
+  document.getElementById('btnMonthly').className = 'tab-btn' + (type==='monthly'?' active':'');
+  const data = window._amortData;
+  if (!data) return;
+  const tbody = document.getElementById('amortBody');
+  tbody.innerHTML = '';
+
+  if (type === 'monthly') {
+    data.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.month}</td><td>${fmtDec(r.payment)}</td><td>${fmtDec(r.principal)}</td><td>${fmtDec(r.interest)}</td><td>${fmtDec(r.balance)}</td>`;
+      tbody.appendChild(tr);
+    });
+  } else {
+    for (let y=1; y*12<=data.length; y++) {
+      const slice = data.slice((y-1)*12, y*12);
+      const totPmt  = slice.reduce((s,r)=>s+r.payment,0);
+      const totPrin = slice.reduce((s,r)=>s+r.principal,0);
+      const totInt  = slice.reduce((s,r)=>s+r.interest,0);
+      const endBal  = slice[slice.length-1].balance;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>Year ${y}</td><td>${fmt(totPmt)}</td><td>${fmt(totPrin)}</td><td>${fmt(totInt)}</td><td>${fmt(endBal)}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+}
+
+function trackAff(id) { console.log('Affiliate click:', id); }
+
+// Auto-calculate on load
+window.addEventListener('DOMContentLoaded', calculate);
+</script>
+</body>
+</html>

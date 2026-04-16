@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Interest Calculator — Watch Your Money Grow | Financulator</title>
+  <meta name="description" content="Free compound interest calculator. See how your investments grow over time with customizable interest rates, compounding frequency, and monthly contributions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a>
+      <a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a>
+      <a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+    <div class="hamburger" onclick="document.querySelector('.mobile-nav').classList.add('open')"><span></span><span></span><span></span></div>
+  </div>
+</header>
+<div class="mobile-nav">
+  <button class="close-btn" onclick="this.closest('.mobile-nav').classList.remove('open')">✕</button>
+  <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+  <a href="savings-calculator.html">Savings</a><a href="retirement-calculator.html">Retirement</a>
+</div>
+
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Compound Interest Calculator</div></nav>
+<div class="page-hero">
+  <h1>📈 Compound Interest Calculator</h1>
+  <p>See exactly how your money grows over time. The eighth wonder of the world — visualized.</p>
+</div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div>
+  </div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Compound Interest Calculator</h2>
+      <p class="subtitle">Model any investment scenario — savings account, index fund, or retirement portfolio.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="principal">Initial Investment</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">$</span>
+            <input type="number" id="principal" value="10000" min="0" step="500" oninput="calculate()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="monthly">Monthly Contribution</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">$</span>
+            <input type="number" id="monthly" value="500" min="0" step="50" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rate">Annual Return Rate</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="rate" value="7" min="0.1" max="50" step="0.1" oninput="syncSlider('rate','sliderRate'); calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+          <input type="range" id="sliderRate" min="1" max="20" step="0.1" value="7" oninput="syncInput('sliderRate','rate'); calculate()">
+          <div class="range-labels"><span>1%</span><span>20%</span></div>
+        </div>
+        <div class="form-group">
+          <label for="years">Time Period</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="years" value="30" min="1" max="60" step="1" oninput="syncSlider('years','sliderYears'); calculate()">
+            <span class="input-suffix">yrs</span>
+          </div>
+          <input type="range" id="sliderYears" min="1" max="60" step="1" value="30" oninput="syncInput('sliderYears','years'); calculate()">
+          <div class="range-labels"><span>1 yr</span><span>60 yrs</span></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="freq">Compounding Frequency</label>
+        <select id="freq" onchange="calculate()">
+          <option value="12" selected>Monthly</option>
+          <option value="365">Daily</option>
+          <option value="4">Quarterly</option>
+          <option value="2">Semi-annually</option>
+          <option value="1">Annually</option>
+        </select>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate Growth</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label">Future Value</div>
+          <div class="result-value" id="futureValue">—</div>
+          <div class="result-sub" id="growthSub"></div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Total Contributed</div><div class="value" id="totalContrib">—</div></div>
+          <div class="result-item"><div class="label">Interest Earned</div><div class="value pos" id="interestEarned">—</div></div>
+          <div class="result-item"><div class="label">Return Multiplier</div><div class="value pos" id="multiplier">—</div></div>
+          <div class="result-item"><div class="label">Effective APY</div><div class="value" id="effectiveAPY">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-container" id="chartBox" style="display:none;">
+      <h4>Growth Over Time</h4>
+      <canvas id="growthChart" height="300"></canvas>
+    </div>
+
+    <div style="margin:2rem 0;">
+      <div class="ad-banner"><span>Advertisement — Responsive</span></div>
+    </div>
+
+    <div class="info-section" style="padding-left:0;padding-right:0;">
+      <h2 style="margin-bottom:1.2rem;">Understanding Compound Interest</h2>
+      <div class="info-card">
+        <h3>Why Einstein called it the "eighth wonder of the world"</h3>
+        <p>Compound interest means you earn interest on your interest — not just your original investment. Over decades, this creates exponential growth. A one-time $10,000 investment at 7% annual return grows to over $76,000 in 30 years without adding a single dollar. Add $500/month and it grows to nearly $600,000.</p>
+      </div>
+      <div class="info-card">
+        <h3>The Rule of 72</h3>
+        <p>To quickly estimate how long it takes your money to double, divide 72 by your annual return rate. At 7%, your money doubles every ≈10.3 years. At 10%, every ≈7.2 years. At 4% (a high-yield savings account), every ≈18 years.</p>
+      </div>
+      <div class="info-card">
+        <h3>Start early — it matters more than amount</h3>
+        <p>Someone who invests $200/month from age 22–32 (10 years) and then stops will have more at age 65 than someone who invests $200/month from age 32 to 65 (33 years) — at the same 7% return. Starting a decade earlier is more powerful than contributing for three times as long.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🚀 Start Investing Today</div>
+      <div class="affiliate-logo">Fidelity Investments</div>
+      <div class="aff-detail">$0 commission trades, no minimums, and award-winning research tools.</div>
+      <div class="aff-rate">$0 <span>commissions</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('fidelity')">Open Free Account →</a>
+      <p class="disclosure">* Financulator may earn a commission. Investing involves risk.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">💳 Earn While You Save</div>
+      <div class="affiliate-logo">Ally Bank HYSA</div>
+      <div class="aff-detail">One of the best high-yield savings rates with no fees or minimums.</div>
+      <div class="aff-rate">4.35% <span>APY</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('ally-hysa')">Get This Rate →</a>
+      <p class="disclosure">* Rates change. FDIC insured up to $250k.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Investing Tips</h4>
+      <ul class="tips-list">
+        <li>Max your 401(k) match first — it's a 50–100% instant return.</li>
+        <li>Low-cost index funds beat most managed funds over 20+ years.</li>
+        <li>Time in market beats timing the market — start now.</li>
+        <li>Tax-advantaged accounts (Roth IRA, 401k) multiply gains further.</li>
+        <li>Reinvesting dividends dramatically boosts long-term returns.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+      <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+let growthChart = null;
+function syncInput(s,i){document.getElementById(i).value=document.getElementById(s).value;}
+function syncSlider(i,s){const v=parseFloat(document.getElementById(i).value);const sl=document.getElementById(s);if(!isNaN(v))sl.value=Math.min(Math.max(v,sl.min),sl.max);}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+
+function calculate() {
+  const P    = parseFloat(document.getElementById('principal').value)||0;
+  const pmt  = parseFloat(document.getElementById('monthly').value)||0;
+  const r    = parseFloat(document.getElementById('rate').value)/100;
+  const yrs  = parseInt(document.getElementById('years').value)||1;
+  const n    = parseInt(document.getElementById('freq').value);
+  const rn   = r/n;
+  const t    = yrs*n;
+
+  // Future value of lump sum
+  const fvLump = P * Math.pow(1+rn, t);
+  // Future value of periodic payments (monthly contributions, compounded monthly for simplicity)
+  const pmtPerPeriod = pmt * (12/n);
+  const fvPmt  = t>0 ? pmtPerPeriod * (Math.pow(1+rn,t)-1)/rn : 0;
+  const fv     = fvLump + fvPmt;
+  const contributed = P + pmt*12*yrs;
+  const gained = fv - contributed;
+  const mult   = contributed > 0 ? (fv/contributed).toFixed(2) : '—';
+  const apy    = ((Math.pow(1+rn,n)-1)*100).toFixed(3);
+
+  document.getElementById('futureValue').textContent   = fmt(fv);
+  document.getElementById('growthSub').textContent     = `After ${yrs} years at ${r*100}% per year`;
+  document.getElementById('totalContrib').textContent  = fmt(contributed);
+  document.getElementById('interestEarned').textContent= fmt(gained);
+  document.getElementById('multiplier').textContent    = mult+'×';
+  document.getElementById('effectiveAPY').textContent  = apy+'%';
+  document.getElementById('resultBox').classList.add('visible');
+
+  buildChart(P,pmt,r,yrs,n);
+}
+
+function buildChart(P,pmt,r,yrs,n) {
+  document.getElementById('chartBox').style.display='block';
+  const labels=[],balances=[],contributions=[],interestArr=[];
+  const rn=r/n;
+  let bal=P, totalContrib=P;
+  labels.push('Start'); balances.push(P); contributions.push(P); interestArr.push(0);
+
+  for(let y=1;y<=yrs;y++) {
+    for(let p=0;p<n;p++) {
+      bal = bal*(1+rn) + pmt*(12/n);
+      totalContrib += pmt*(12/n);
+    }
+    labels.push('Yr '+y);
+    balances.push(Math.round(bal));
+    contributions.push(Math.round(totalContrib));
+    interestArr.push(Math.round(bal-totalContrib));
+  }
+
+  const ctx=document.getElementById('growthChart').getContext('2d');
+  if(growthChart)growthChart.destroy();
+  growthChart=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Portfolio Value',data:balances,borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,.1)',fill:true,tension:.3,borderWidth:2},
+      {label:'Amount Contributed',data:contributions,borderColor:'#1a2744',backgroundColor:'rgba(26,39,68,.05)',fill:true,tension:.3,borderWidth:2,borderDash:[5,5]}
+    ]},
+    options:{responsive:true,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString()}}}}
+  });
+}
+
+function trackAff(id){console.log('Affiliate:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body>
+</html>

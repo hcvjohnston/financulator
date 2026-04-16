@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Calculator — Monthly Payment & Total Interest | Financulator</title>
+  <meta name="description" content="Free loan payment calculator for personal loans, auto loans, and student loans. See your monthly payment, total interest, and full repayment schedule instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a>
+      <a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a>
+      <a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Loan Calculator</div></nav>
+<div class="page-hero">
+  <h1>💳 Loan Calculator</h1>
+  <p>Find your monthly payment and total interest cost for any personal, auto, or student loan.</p>
+</div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Loan Payment Calculator</h2>
+      <p class="subtitle">Works for personal loans, auto loans, student loans, and more.</p>
+
+      <div class="form-group">
+        <label>Loan Type</label>
+        <div class="tab-bar" style="margin-bottom:.5rem;">
+          <button class="tab-btn active" onclick="setLoanPreset(this,'personal',15000,8.5,48)">Personal</button>
+          <button class="tab-btn" onclick="setLoanPreset(this,'auto',35000,6.9,60)">Auto</button>
+          <button class="tab-btn" onclick="setLoanPreset(this,'student',28000,5.5,120)">Student</button>
+          <button class="tab-btn" onclick="setLoanPreset(this,'custom',0,0,0)">Custom</button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="loanAmt">Loan Amount</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="loanAmt" value="15000" min="500" step="500" oninput="calculate()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="loanRate">Interest Rate (APR)</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="loanRate" value="8.5" min="0.1" max="40" step="0.1" oninput="calculate()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="loanTerm">Loan Term</label>
+        <div class="input-wrap has-suffix">
+          <input type="number" id="loanTerm" value="48" min="6" max="360" step="6" oninput="syncSlider('loanTerm','sliderTerm'); calculate()">
+          <span class="input-suffix">mo</span>
+        </div>
+        <input type="range" id="sliderTerm" min="6" max="360" step="6" value="48" oninput="syncInput('sliderTerm','loanTerm'); calculate()">
+        <div class="range-labels"><span>6 mo</span><span>30 yrs</span></div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate Payment</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label">Monthly Payment</div>
+          <div class="result-value" id="monthlyPmt">—</div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Total Repaid</div><div class="value" id="totalRepaid">—</div></div>
+          <div class="result-item"><div class="label">Total Interest</div><div class="value neg" id="totalInt">—</div></div>
+          <div class="result-item"><div class="label">Interest %</div><div class="value neg" id="intPct">—</div></div>
+          <div class="result-item"><div class="label">Payoff Date</div><div class="value" id="payoffDate">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-container" id="chartBox" style="display:none;">
+      <h4>Principal vs Interest Over Time</h4>
+      <canvas id="loanChart" height="300"></canvas>
+    </div>
+
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement — Responsive</span></div></div>
+
+    <div class="info-section" style="padding:1rem 0 0;">
+      <h2 style="margin-bottom:1.2rem;">Loan Repayment Strategies</h2>
+      <div class="info-card"><h3>How to reduce your total interest paid</h3><p>Making even one extra payment per year — applied directly to principal — can cut years off your loan and save thousands in interest. For a 48-month $15,000 loan at 8.5%, paying just $50 extra monthly saves over $300 and eliminates 3 months of payments.</p></div>
+      <div class="info-card"><h3>Fixed vs variable rate loans</h3><p>Fixed rate loans keep the same interest rate for the life of the loan — predictable and safe if rates rise. Variable rate loans may start lower but can increase with market rates. Unless you plan to pay off quickly, fixed rates are safer for large, long-term loans.</p></div>
+    </div>
+  </div>
+
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🏆 Top-Rated Personal Loan</div>
+      <div class="affiliate-logo">LightStream</div>
+      <div class="aff-detail">Low fixed rates, no fees, same-day funding available.</div>
+      <div class="aff-rate">From 7.49% <span>APR</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('lightstream')">Check Your Rate →</a>
+      <p class="disclosure">* Rates based on creditworthiness. Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">🚗 Auto Loan</div>
+      <div class="affiliate-logo">Capital One Auto</div>
+      <div class="aff-detail">Pre-qualify in minutes with no impact to your credit score.</div>
+      <div class="aff-rate">From 5.99% <span>APR</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('cap1-auto')">Pre-Qualify Now →</a>
+      <p class="disclosure">* Financulator may earn a commission. OAC.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Loan Tips</h4>
+      <ul class="tips-list">
+        <li>Check your credit score before applying — higher scores unlock better rates.</li>
+        <li>Prequalify with multiple lenders to compare rates without affecting credit.</li>
+        <li>Shorter terms mean higher payments but far less interest overall.</li>
+        <li>Watch out for origination fees — they add to your effective cost.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+let loanChart=null;
+function syncInput(s,i){document.getElementById(i).value=document.getElementById(s).value;}
+function syncSlider(i,s){const v=parseFloat(document.getElementById(i).value),sl=document.getElementById(s);if(!isNaN(v))sl.value=Math.min(Math.max(v,sl.min),sl.max);}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function setLoanPreset(btn,_type,amt,rate,term){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  if(amt){document.getElementById('loanAmt').value=amt; document.getElementById('loanRate').value=rate; document.getElementById('loanTerm').value=term;}
+  calculate();
+}
+function calculate(){
+  const P=parseFloat(document.getElementById('loanAmt').value)||0;
+  const r=parseFloat(document.getElementById('loanRate').value)/100/12;
+  const n=parseInt(document.getElementById('loanTerm').value)||1;
+  if(P<=0||r<=0)return;
+  const pmt=P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  const total=pmt*n; const interest=total-P;
+  const payoff=new Date(); payoff.setMonth(payoff.getMonth()+n);
+  document.getElementById('monthlyPmt').textContent='$'+pmt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('totalRepaid').textContent=fmt(total);
+  document.getElementById('totalInt').textContent=fmt(interest);
+  document.getElementById('intPct').textContent=((interest/P)*100).toFixed(1)+'%';
+  document.getElementById('payoffDate').textContent=payoff.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+  document.getElementById('resultBox').classList.add('visible');
+  buildChart(P,r,pmt,n);
+}
+function buildChart(P,r,pmt,n){
+  document.getElementById('chartBox').style.display='block';
+  const labels=[],principals=[],interests=[];
+  let bal=P;
+  for(let i=1;i<=n;i++){const int=bal*r,prin=pmt-int;bal=Math.max(bal-prin,0);principals.push(Math.round(prin));interests.push(Math.round(int));labels.push('Mo '+i);}
+  const ctx=document.getElementById('loanChart').getContext('2d');
+  if(loanChart)loanChart.destroy();
+  loanChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Principal',data:principals,backgroundColor:'#1a2744'},{label:'Interest',data:interests,backgroundColor:'#f5a623'}]},options:{plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,ticks:{maxTicksLimit:12}},y:{stacked:true,ticks:{callback:v=>'$'+v}}}}});
+}
+function trackAff(id){console.log('Aff:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body></html>

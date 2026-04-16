@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Calculator — Return on Investment | Financulator</title>
+  <meta name="description" content="Free ROI calculator. Calculate return on investment for any business expense, marketing campaign, real estate purchase, or investment.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a><a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>ROI Calculator</div></nav>
+<div class="page-hero"><h1>🎯 ROI Calculator</h1><p>Calculate return on investment for any expense, campaign, or purchase instantly.</p></div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>ROI Calculator</h2>
+      <p class="subtitle">Works for marketing, real estate, stocks, business investments, and more.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="initialInv">Initial Investment</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="initialInv" value="10000" min="0" step="100" oninput="calculate()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="finalVal">Final Value / Return</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="finalVal" value="14500" min="0" step="100" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="roiPeriod">Investment Period</label>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="roiPeriod" value="2" min="0.1" max="30" step="0.5" oninput="calculate()">
+            <span class="input-suffix">yrs</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="additionalCosts">Additional Costs</label>
+          <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+            <input type="number" id="additionalCosts" value="0" min="0" step="100" oninput="calculate()">
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calculate()">Calculate ROI</button>
+      <div class="result-box" id="resultBox">
+        <div class="result-primary">
+          <div class="result-label">Return on Investment</div>
+          <div class="result-value" id="roiPct">—</div>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="label">Net Profit</div><div class="value pos" id="netProfit">—</div></div>
+          <div class="result-item"><div class="label">Total Investment</div><div class="value" id="totalInv">—</div></div>
+          <div class="result-item"><div class="label">Annualized ROI</div><div class="value pos" id="annualROI">—</div></div>
+          <div class="result-item"><div class="label">Payback Period</div><div class="value" id="payback">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement</span></div></div>
+    <div class="info-section" style="padding:1rem 0 0;">
+      <div class="info-card"><h3>How is ROI calculated?</h3><p>ROI = (Net Profit / Total Investment) × 100. Net Profit = Final Value − Total Investment (including any additional costs). Annualized ROI adjusts this for the time period using the formula: (1 + ROI)^(1/years) − 1, allowing fair comparison between investments of different lengths.</p></div>
+      <div class="info-card"><h3>What is a good ROI?</h3><p>It depends entirely on the risk involved and asset class. S&P 500 index funds average ≈10% annually over long periods. Real estate typically returns 8–12% including appreciation and rental income. High-risk ventures might need 25%+ to justify the risk. Always compare ROI against similar risk alternatives.</p></div>
+    </div>
+  </div>
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">📈 Maximize Your ROI</div>
+      <div class="affiliate-logo">Fundrise (Real Estate)</div>
+      <div class="aff-detail">Invest in real estate with as little as $10. Avg 8–12% historical returns.</div>
+      <div class="aff-rate">From $10 <span>to start</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('fundrise')">Start Investing →</a>
+      <p class="disclosure">* Past performance not indicative of future returns. Financulator may earn a commission.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 ROI Tips</h4>
+      <ul class="tips-list">
+        <li>Always include ALL costs when calculating ROI — hidden fees kill returns.</li>
+        <li>Use annualized ROI to compare investments of different time horizons.</li>
+        <li>Factor in taxes on gains — after-tax ROI is what actually matters.</li>
+        <li>Inflation eats into real ROI — use real return (ROI minus inflation rate).</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+function fmt(n){return '$'+Math.abs(Math.round(n)).toLocaleString();}
+function calculate(){
+  const inv=parseFloat(document.getElementById('initialInv').value)||0;
+  const fin=parseFloat(document.getElementById('finalVal').value)||0;
+  const yrs=parseFloat(document.getElementById('roiPeriod').value)||1;
+  const extra=parseFloat(document.getElementById('additionalCosts').value)||0;
+  const totalInv=inv+extra;
+  const net=fin-totalInv;
+  const roi=(net/totalInv)*100;
+  const annualized=(Math.pow(1+net/totalInv, 1/yrs)-1)*100;
+  const payback=net>0?totalInv/(net/yrs):Infinity;
+  document.getElementById('roiPct').textContent=roi.toFixed(2)+'%';
+  document.getElementById('netProfit').textContent=(net>=0?'+':'-')+fmt(net);
+  document.getElementById('totalInv').textContent=fmt(totalInv);
+  document.getElementById('annualROI').textContent=annualized.toFixed(2)+'%';
+  document.getElementById('payback').textContent=isFinite(payback)?payback.toFixed(1)+' yrs':'Never';
+  document.getElementById('resultBox').classList.add('visible');
+}
+function trackAff(id){console.log('Aff:',id);}
+window.addEventListener('DOMContentLoaded',calculate);
+</script>
+</body></html>

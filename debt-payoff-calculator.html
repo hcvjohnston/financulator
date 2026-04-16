@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Payoff Calculator — Avalanche vs Snowball | Financulator</title>
+  <meta name="description" content="Free debt payoff calculator. Compare the avalanche and snowball methods to find the fastest, cheapest path to becoming debt-free.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><div class="logo-icon">💰</div>Finan<span>culator</span></a>
+    <nav class="site-nav">
+      <a href="mortgage-calculator.html">Mortgage</a><a href="loan-calculator.html">Loans</a>
+      <a href="savings-calculator.html">Savings</a><a href="retirement-calculator.html">Retirement</a>
+      <a href="index.html#all-tools">All Tools</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span>›</span>Debt Payoff Calculator</div></nav>
+<div class="page-hero"><h1>⚡ Debt Payoff Calculator</h1><p>Compare avalanche vs snowball methods and find the fastest, cheapest path to debt freedom.</p></div>
+
+<div class="section-sm" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container"><div class="ad-banner ad-banner-wide"><span>Advertisement — 728×90</span></div></div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-main">
+    <div class="calc-box">
+      <h2>Debt Payoff Planner</h2>
+      <p class="subtitle">Enter your debts and extra monthly payment. We'll show you both strategies.</p>
+
+      <div id="debtList"></div>
+      <button onclick="addDebt()" style="background:none;border:2px dashed var(--border);color:var(--muted);padding:.6rem 1.2rem;border-radius:8px;cursor:pointer;font-family:var(--font);font-size:.88rem;width:100%;margin-bottom:1.2rem;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">+ Add Another Debt</button>
+
+      <div class="form-group">
+        <label for="extraPmt">Extra Monthly Payment (above minimums)</label>
+        <div class="input-wrap has-prefix"><span class="input-prefix">$</span>
+          <input type="number" id="extraPmt" value="200" min="0" step="25" oninput="calculate()">
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Compare Strategies</button>
+
+      <div id="results" style="display:none;margin-top:1.5rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+          <div class="result-box visible" style="background:#1a2744;">
+            <div class="result-primary">
+              <div class="result-label">🏔 Avalanche Method</div>
+              <div class="result-value" id="avPayoff">—</div>
+              <div class="result-sub">Pay highest interest first</div>
+            </div>
+            <div class="result-item" style="margin-top:.8rem;"><div class="label">Total Interest</div><div class="value neg" id="avInterest">—</div></div>
+          </div>
+          <div class="result-box visible" style="background:#243358;">
+            <div class="result-primary">
+              <div class="result-label">⛄ Snowball Method</div>
+              <div class="result-value" id="sbPayoff">—</div>
+              <div class="result-sub">Pay smallest balance first</div>
+            </div>
+            <div class="result-item" style="margin-top:.8rem;"><div class="label">Total Interest</div><div class="value neg" id="sbInterest">—</div></div>
+          </div>
+        </div>
+        <div id="winnerBox" style="background:var(--off);border-radius:var(--radius);padding:1rem;margin-top:1rem;border:1px solid var(--border);font-size:.9rem;color:var(--navy);"></div>
+      </div>
+    </div>
+
+    <div style="margin:2rem 0;"><div class="ad-banner"><span>Advertisement</span></div></div>
+
+    <div class="info-section" style="padding:1rem 0 0;">
+      <h2 style="margin-bottom:1.2rem;">Avalanche vs Snowball: Which is Better?</h2>
+      <div class="info-card"><h3>Avalanche Method (mathematically optimal)</h3><p>Pay minimums on all debts, then throw every extra dollar at the debt with the highest interest rate. Once that's paid off, attack the next highest rate. This approach minimizes total interest paid — often by thousands of dollars — but you may not see a debt fully paid off for a while.</p></div>
+      <div class="info-card"><h3>Snowball Method (psychologically powerful)</h3><p>Pay minimums on all debts, then focus on the smallest balance first. You'll get your first "win" — a fully paid debt — faster, which research shows helps people stay motivated. You pay more interest overall, but the momentum it builds is real and valuable.</p></div>
+      <div class="info-card"><h3>The truth: the best method is the one you stick with</h3><p>The interest difference between strategies is usually 5–15% on total interest paid. If snowball helps you stay the course where avalanche would cause you to give up, snowball wins. Pick the strategy that matches your personality, not just the math.</p></div>
+    </div>
+  </div>
+
+  <div class="calc-sidebar">
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">💳 Consolidate Your Debt</div>
+      <div class="affiliate-logo">SoFi Personal Loan</div>
+      <div class="aff-detail">Consolidate high-interest credit card debt into one lower-rate payment.</div>
+      <div class="aff-rate">From 8.99% <span>APR</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('sofi-consolidate')">Check My Rate →</a>
+      <p class="disclosure">* Financulator may earn a commission. OAC.</p>
+    </div>
+    <div class="sidebar-card affiliate-card">
+      <div style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem;">0% Balance Transfer</div>
+      <div class="affiliate-logo">Chase Freedom Unlimited</div>
+      <div class="aff-detail">0% intro APR for 15 months on balance transfers. Transfer and pay it down fast.</div>
+      <div class="aff-rate">0% <span>intro APR (15 mo)</span></div>
+      <a href="#" class="btn-aff" onclick="trackAff('chase-bt')">Apply Now →</a>
+      <p class="disclosure">* Financulator may earn a commission. Subject to credit approval.</p>
+    </div>
+    <div class="sidebar-card">
+      <h4>💡 Debt Payoff Tips</h4>
+      <ul class="tips-list">
+        <li>Even $50 extra per month makes a dramatic difference over time.</li>
+        <li>A 0% balance transfer card can let you pay pure principal.</li>
+        <li>Stop accumulating new debt while paying off existing debt.</li>
+        <li>Sell unused items to generate lump-sum payments.</li>
+        <li>Any raise or bonus should go directly to debt first.</li>
+      </ul>
+    </div>
+    <div class="ad-banner ad-banner-square"><span>300×250 Ad</span></div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0;">
+  <a href="index.html" style="color:var(--gold);font-weight:700;">← Back to All Calculators</a>
+  <span style="color:rgba(255,255,255,.4);font-size:.8rem;">© 2026 Financulator · Not financial advice</span>
+</div></div></footer>
+
+<script>
+let debtCount=0;
+const defaultDebts=[
+  {name:'Credit Card',balance:8500,rate:22.99,min:200},
+  {name:'Auto Loan',balance:14200,rate:7.5,min:280},
+  {name:'Personal Loan',balance:5000,rate:12.0,min:120}
+];
+
+function addDebt(d){
+  d=d||{name:'Debt '+(debtCount+1),balance:1000,rate:15,min:25};
+  debtCount++;
+  const id=debtCount;
+  const div=document.createElement('div');
+  div.id='debt-'+id;
+  div.style.cssText='background:var(--off);border-radius:10px;padding:1rem;margin-bottom:1rem;border:1px solid var(--border);';
+  div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;">
+    <input type="text" value="${d.name}" style="font-weight:700;background:none;border:none;color:var(--navy);font-size:.95rem;font-family:var(--font);width:auto;" oninput="calculate()">
+    <button onclick="document.getElementById('debt-${id}').remove();calculate()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;" title="Remove">✕</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;">
+    <div><label style="font-size:.78rem;font-weight:600;color:var(--navy);display:block;margin-bottom:.3rem;">Balance</label>
+      <div style="position:relative;"><span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;">$</span>
+      <input type="number" class="bal-${id}" value="${d.balance}" style="width:100%;padding:.6rem .8rem .6rem 1.6rem;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;font-family:var(--font);" oninput="calculate()"></div></div>
+    <div><label style="font-size:.78rem;font-weight:600;color:var(--navy);display:block;margin-bottom:.3rem;">APR %</label>
+      <input type="number" class="rate-${id}" value="${d.rate}" step="0.1" style="width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;font-family:var(--font);" oninput="calculate()"></div>
+    <div><label style="font-size:.78rem;font-weight:600;color:var(--navy);display:block;margin-bottom:.3rem;">Min Payment</label>
+      <div style="position:relative;"><span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;">$</span>
+      <input type="number" class="min-${id}" value="${d.min}" style="width:100%;padding:.6rem .8rem .6rem 1.6rem;border:1.5px solid var(--border);border-radius:8px;font-size:.88rem;font-family:var(--font);" oninput="calculate()"></div></div>
+  </div>`;
+  document.getElementById('debtList').appendChild(div);
+}
+
+function getDebts(){
+  return Array.from(document.querySelectorAll('[id^="debt-"]')).map(el=>{
+    const id=el.id.split('-')[1];
+    return {
+      balance:parseFloat(el.querySelector('.bal-'+id)?.value)||0,
+      rate:(parseFloat(el.querySelector('.rate-'+id)?.value)||0)/100/12,
+      min:parseFloat(el.querySelector('.min-'+id)?.value)||25
+    };
+  }).filter(d=>d.balance>0);
+}
+
+function simulate(debts,method,extra){
+  let ds=debts.map(d=>({...d}));
+  let months=0, totalInt=0;
+  while(ds.some(d=>d.balance>0) && months<600){
+    // Sort by strategy
+    ds.sort((a,b)=>method==='avalanche'?(b.rate-a.rate):(a.balance-b.balance));
+    let extraLeft=extra;
+    ds.forEach(d=>{
+      if(d.balance<=0)return;
+      const int=d.balance*d.rate;
+      totalInt+=int;
+      let pmt=Math.min(d.min+extraLeft, d.balance+int);
+      if(pmt===d.min+extraLeft)extraLeft=0; else extraLeft=0;
+      d.balance=Math.max(d.balance+int-pmt,0);
+      if(d.balance===0&&extraLeft===0)extraLeft=d.min;
+    });
+    months++;
+  }
+  return {months,totalInt};
+}
+
+function calculate(){
+  const debts=getDebts(); if(!debts.length)return;
+  const extra=parseFloat(document.getElementById('extraPmt').value)||0;
+  const av=simulate(debts,'avalanche',extra);
+  const sb=simulate(debts,'snowball',extra);
+  const avYrs=Math.floor(av.months/12), avMos=av.months%12;
+  const sbYrs=Math.floor(sb.months/12), sbMos=sb.months%12;
+  const fmt=n=>'$'+Math.round(n).toLocaleString();
+  const fmtTime=(y,m)=>(y>0?y+' yr'+(y!==1?'s ':'  '):'')+m+' mo';
+
+  document.getElementById('avPayoff').textContent=fmtTime(avYrs,avMos);
+  document.getElementById('avInterest').textContent=fmt(av.totalInt);
+  document.getElementById('sbPayoff').textContent=fmtTime(sbYrs,sbMos);
+  document.getElementById('sbInterest').textContent=fmt(sb.totalInt);
+
+  const intDiff=sb.totalInt-av.totalInt;
+  const moDiff=sb.months-av.months;
+  document.getElementById('winnerBox').innerHTML=
+    `🏆 <strong>Avalanche saves you ${fmt(intDiff)} in interest</strong> and pays off ${Math.abs(moDiff)} month${Math.abs(moDiff)!==1?'s':''} ${moDiff>=0?'faster':'slower'} than snowball. If you need motivation wins, snowball helps you see progress earlier.`;
+
+  document.getElementById('results').style.display='block';
+}
+
+function trackAff(id){console.log('Aff:',id);}
+
+// Init with defaults
+window.addEventListener('DOMContentLoaded',()=>{
+  defaultDebts.forEach(addDebt);
+  calculate();
+});
+</script>
+</body></html>
