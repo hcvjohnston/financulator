@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://financulator.io/sitemap.xml
+Sitemap: https://financulator.com/sitemap.xml
