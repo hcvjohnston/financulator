@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APR vs. Interest Rate: What Borrowers Actually Need to Know — Financulator</title>
+  <meta name="description" content="Lenders advertise interest rates but you pay the APR. Understanding the difference can save you hundreds per year on loans and credit cards. Plain-English explanation.">
+  <link rel="canonical" href="https://financulator.com/blog/apr-vs-interest-rate.html">
+  <meta property="og:title" content="APR vs. Interest Rate: What Borrowers Actually Need to Know">
+  <meta property="og:type" content="article">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"APR vs. Interest Rate: What Borrowers Actually Need to Know","description":"The difference between APR and interest rate, and how it affects what you actually pay on loans and credit cards","author":{"@type":"Organization","name":"Financulator"},"publisher":{"@type":"Organization","name":"Financulator","url":"https://financulator.com"}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .article-hero { background: #1a0a2e; color: var(--white); padding: 3rem 1.5rem 2.5rem; }
+    .article-hero-inner { max-width: 760px; margin: 0 auto; }
+    .article-tag { background: var(--gold); color: var(--navy); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; padding: .25rem .7rem; border-radius: 4px; display: inline-block; margin-bottom: 1rem; }
+    .article-hero h1 { color: var(--white); font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.2; margin-bottom: .75rem; }
+    .article-meta { color: rgba(255,255,255,.6); font-size: .85rem; display: flex; gap: 1.5rem; }
+    .article-body { max-width: 760px; margin: 3rem auto; padding: 0 1.5rem; }
+    .article-body h2 { font-size: 1.5rem; color: var(--navy); margin: 2.5rem 0 1rem; padding-bottom: .5rem; border-bottom: 2px solid var(--border); }
+    .article-body h3 { font-size: 1.15rem; color: var(--navy); margin: 1.75rem 0 .6rem; }
+    .article-body p { font-size: 1rem; line-height: 1.8; color: #3d4f73; margin-bottom: 1.25rem; }
+    .article-body ul, .article-body ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+    .article-body li { font-size: 1rem; line-height: 1.8; color: #3d4f73; margin-bottom: .4rem; }
+    .callout { background: #fff8e6; border-left: 4px solid var(--gold); border-radius: 0 10px 10px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout strong { color: var(--navy); }
+    .callout p { margin: 0; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.75rem 0; }
+    .compare-box { border-radius: var(--radius); padding: 1.5rem; }
+    .compare-box.rate { background: var(--off); border: 2px solid var(--border); }
+    .compare-box.apr { background: var(--navy); color: var(--white); }
+    .compare-box h3 { margin: 0 0 .75rem; }
+    .compare-box.apr h3 { color: var(--gold); }
+    .compare-box p, .compare-box li { font-size: .92rem; }
+    .compare-box.apr p, .compare-box.apr li { color: rgba(255,255,255,.85); }
+    .compare-box ul { padding-left: 1.1rem; margin: 0; }
+    .data-table { width: 100%; border-collapse: collapse; margin: 1.75rem 0; font-size: .9rem; }
+    .data-table th { background: var(--navy); color: var(--white); padding: .75rem 1rem; text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; }
+    .data-table td { padding: .7rem 1rem; border-bottom: 1px solid var(--border); color: #3d4f73; }
+    .data-table tr:nth-child(even) td { background: var(--off); }
+    .data-table .highlight { font-weight: 700; color: var(--navy); }
+    .data-table .red { color: var(--red); font-weight: 700; }
+    .cta-box { background: var(--navy); color: var(--white); border-radius: var(--radius); padding: 2rem; margin: 2.5rem 0; text-align: center; }
+    .cta-box h3 { color: var(--white); margin-bottom: .5rem; }
+    .cta-box p { color: rgba(255,255,255,.7); margin-bottom: 1.25rem; font-size: .95rem; }
+    .cta-box a { background: var(--gold); color: var(--navy); padding: .7rem 1.75rem; border-radius: 8px; font-weight: 700; display: inline-block; text-decoration: none; }
+    .back-link { display: inline-flex; align-items: center; gap: .4rem; color: var(--muted); font-size: .88rem; margin-bottom: 1rem; text-decoration: none; }
+    .back-link:hover { color: var(--gold); }
+    .warning { background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 0 10px 10px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .warning p { margin: 0; color: #7f1d1d; }
+    @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../" class="logo"><div class="logo-icon">📊</div>Financ<span>ulator</span></a>
+    <nav class="site-nav">
+      <a href="../">Calculators</a>
+      <a href="./" style="color:var(--gold)">Guides</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="article-hero-inner">
+    <span class="article-tag">Loans</span>
+    <h1>APR vs. Interest Rate: What Borrowers Actually Need to Know</h1>
+    <div class="article-meta">
+      <span>⏱ 6 min read</span>
+      <span>📅 Updated 2025</span>
+      <span>By Financulator Editorial</span>
+    </div>
+  </div>
+</section>
+
+<div class="article-body">
+  <a href="./" class="back-link">← Back to all guides</a>
+
+  <p>Lenders have a well-worn habit of advertising the interest rate on a loan while burying the APR in smaller print. This matters because <strong>the interest rate tells you the cost of borrowing the principal. The APR tells you the actual cost of the loan.</strong> They are not the same number, and the gap between them can represent hundreds or thousands of dollars in real cost differences between loan offers.</p>
+
+  <p>This guide explains both figures, shows you the math on why they differ, and gives you a practical framework for comparing loan offers the right way.</p>
+
+  <h2>The Basic Definitions</h2>
+
+  <div class="compare-grid">
+    <div class="compare-box rate">
+      <h3>Interest Rate</h3>
+      <p>The percentage of the loan principal charged as interest annually. This is purely the base cost of borrowing money — it does not include fees, points, or other charges.</p>
+      <ul>
+        <li>Always lower than APR (or equal, if no fees)</li>
+        <li>Used to calculate your monthly payment</li>
+        <li>Also called the "nominal rate"</li>
+        <li>Can be fixed or variable</li>
+      </ul>
+    </div>
+    <div class="compare-box apr">
+      <h3>APR (Annual Percentage Rate)</h3>
+      <p>The interest rate <em>plus</em> all mandatory fees and costs, expressed as a single annual rate. It represents your true cost of borrowing over the life of the loan.</p>
+      <ul>
+        <li>Always equal to or higher than the interest rate</li>
+        <li>Standardized by law (Truth in Lending Act) for comparison</li>
+        <li>Includes origination fees, points, mortgage insurance, etc.</li>
+        <li>The number to compare across lenders</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>What's Included in APR That Isn't in the Interest Rate?</h2>
+
+  <p>The specific fees included in APR vary by loan type, but on a mortgage, the calculation typically includes:</p>
+
+  <ul>
+    <li><strong>Origination fees</strong> — lender charges for processing the loan, often 0.5–1% of the loan amount</li>
+    <li><strong>Discount points</strong> — upfront fees paid to reduce the interest rate (1 point = 1% of loan amount)</li>
+    <li><strong>Mortgage broker fees</strong> — if applicable</li>
+    <li><strong>Private mortgage insurance (PMI)</strong> — required when down payment is under 20%</li>
+    <li><strong>Prepaid interest</strong> — interest due between loan closing and first payment</li>
+  </ul>
+
+  <p>On personal loans and auto loans, APR typically includes origination fees and other mandatory charges but not optional add-ons like credit insurance or extended warranties.</p>
+
+  <p>What APR <em>doesn't</em> include: title insurance, appraisal fees, home inspection, attorney fees, and other third-party closing costs. These are still real expenses — they're just not part of the standardized APR calculation.</p>
+
+  <h2>A Real Mortgage Example: Why the Gap Matters</h2>
+
+  <p>Consider two lenders offering mortgages on a $350,000 home purchase:</p>
+
+  <table class="data-table">
+    <thead><tr><th>Lender</th><th>Interest Rate</th><th>Origination Fee</th><th>Points</th><th>APR</th><th>Monthly Payment</th><th>Total Cost (30 yr)</th></tr></thead>
+    <tbody>
+      <tr><td>Lender A</td><td>6.50%</td><td>$0</td><td>0</td><td class="highlight">6.52%</td><td>$2,212</td><td>$796,472</td></tr>
+      <tr><td>Lender B</td><td class="highlight">6.25%</td><td>$3,500 (1%)</td><td>$7,000 (2)</td><td class="red">6.68%</td><td>$2,156</td><td>$779,160 + $10,500 upfront</td></tr>
+    </tbody>
+  </table>
+
+  <p>Lender B advertises a lower interest rate — 6.25% vs. 6.50%. The monthly payment is $56 lower. But Lender B charges $10,500 upfront in fees and points. The APR (6.68% vs. 6.52%) reveals that Lender B is actually the more expensive loan when you factor in the full cost of borrowing.</p>
+
+  <p>If you're staying in the home for 30 years, the break-even on Lender B's points requires that $56/month savings to accumulate beyond $10,500 — which takes about 15 years. If you sell or refinance before then, you've paid extra for nothing.</p>
+
+  <div class="callout">
+    <p><strong>The APR comparison rule:</strong> When comparing loan offers, always sort by APR — not interest rate. Two loans with the same interest rate but different fees will have different APRs, and the lower APR will cost you less over the life of the loan.</p>
+  </div>
+
+  <h2>APR on Credit Cards: A Different Animal</h2>
+
+  <p>Credit card APR works fundamentally differently from loan APR in several important ways:</p>
+
+  <h3>It Compounds Daily</h3>
+  <p>Most credit cards compound interest daily, not annually. A 24% APR card doesn't simply charge you 24% per year on your balance. It charges 24%/365 = 0.0658% per day. On a $5,000 balance with no payments, that works out to about $1,313 in interest after one year — slightly more than the "simple" 24% calculation due to daily compounding.</p>
+
+  <h3>Multiple APRs on One Card</h3>
+  <p>Credit cards often have different APRs for different types of transactions. Your card might show:</p>
+  <ul>
+    <li><strong>Purchase APR:</strong> 21.99% (for regular purchases)</li>
+    <li><strong>Cash Advance APR:</strong> 28.99% (for ATM withdrawals — no grace period)</li>
+    <li><strong>Balance Transfer APR:</strong> 0% for 18 months, then 21.99%</li>
+    <li><strong>Penalty APR:</strong> 29.99% (triggered by late payments)</li>
+  </ul>
+
+  <h3>The Grace Period</h3>
+  <p>Credit cards have a feature that loans don't: a grace period. If you pay your full statement balance by the due date, you pay zero interest — regardless of your APR. The APR only applies to balances you carry month to month. This means a disciplined credit card user who pays in full every month is essentially borrowing at 0% APR while earning rewards.</p>
+
+  <div class="warning">
+    <p><strong>The minimum payment trap:</strong> On a $6,000 credit card balance at 22.99% APR, making only the minimum payment (typically 2% of balance or $25, whichever is higher) can take over 20 years to pay off and cost you more than $7,000 in interest — more than the original balance. Always calculate your full payoff timeline before relying on minimum payments.</p>
+  </div>
+
+  <h2>Variable vs. Fixed APR</h2>
+
+  <p>Most mortgage APRs are fixed — the rate doesn't change over the life of the loan. Most credit card and many personal loan APRs are variable, tied to a benchmark rate (typically the Prime Rate) plus a margin.</p>
+
+  <p>When the Federal Reserve raises interest rates, variable APRs rise with them. A credit card that had a 16% APR in 2021 may have risen to 24–25% by 2024 as rates climbed. Borrowers with variable-rate debt see real cost increases when benchmark rates rise — which is why locking into fixed-rate mortgages and personal loans is often worth the slightly higher initial rate.</p>
+
+  <h2>How to Compare Loans Like a Pro</h2>
+
+  <ol>
+    <li><strong>Request the Loan Estimate (mortgages) or Loan Disclosure (personal/auto).</strong> Lenders are legally required to provide these. The APR will be clearly stated.</li>
+    <li><strong>Compare APRs across lenders for the same loan amount and term.</strong> APR comparison is only apples-to-apples when the loan structure is identical — same amount, same length.</li>
+    <li><strong>Factor in how long you'll keep the loan.</strong> A low interest rate with high upfront fees (high APR) may still be worthwhile if you're keeping the loan for 30 years. It's often not worth it if you might refinance in 5 years.</li>
+    <li><strong>Check what's not in the APR.</strong> Title insurance, appraisal, and attorney fees on a mortgage are not included in the APR calculation but are still real costs you'll pay at closing.</li>
+    <li><strong>Watch for teaser rates on variable loans.</strong> A "6.5% APR" on a variable-rate loan may be based on today's rate index — which could rise significantly.</li>
+  </ol>
+
+  <div class="cta-box">
+    <h3>Compare Loan Scenarios</h3>
+    <p>Use our loan calculator to compare monthly payments and total interest costs across different loan amounts, rates, and terms.</p>
+    <a href="../loan-calculator.html">Open Loan Calculator →</a>
+  </div>
+
+  <h2>APR Quick Reference</h2>
+
+  <table class="data-table">
+    <thead><tr><th>Loan Type</th><th>Typical APR Range (2025)</th><th>Key Fee Inclusions</th></tr></thead>
+    <tbody>
+      <tr><td>30-Year Fixed Mortgage</td><td>6.5–7.5%</td><td>Origination, points, PMI</td></tr>
+      <tr><td>15-Year Fixed Mortgage</td><td>6.0–7.0%</td><td>Origination, points</td></tr>
+      <tr><td>Auto Loan (new car)</td><td>5.0–8.0%</td><td>Origination fee (if any)</td></tr>
+      <tr><td>Personal Loan (good credit)</td><td>8.0–15.0%</td><td>Origination fee (1–6%)</td></tr>
+      <tr><td>Credit Card (purchase)</td><td>19.0–28.0%</td><td>Annual fee (if any)</td></tr>
+      <tr><td>Credit Card (cash advance)</td><td>25.0–30.0%</td><td>Cash advance fee (3–5%)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Key Takeaways</h2>
+
+  <ul>
+    <li><strong>Interest rate</strong> = cost of borrowing the principal only. Used to calculate your monthly payment.</li>
+    <li><strong>APR</strong> = interest rate + fees, expressed as an annualized percentage. This is what you actually pay.</li>
+    <li>Always compare loans using APR — not interest rate — for an accurate cost comparison.</li>
+    <li>On credit cards, the APR only applies to balances you carry month-to-month. Pay in full and your effective APR is 0%.</li>
+    <li>Variable APRs can increase significantly when benchmark rates rise — a real risk worth pricing in.</li>
+    <li>For short-term loan holding periods, a lower APR (even with less favorable rate) often saves more money than a lower rate with high upfront fees.</li>
+  </ul>
+
+  <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+    <p style="font-size:.82rem;color:var(--muted);">This article is for informational purposes only. Loan rates and terms vary widely by lender, credit profile, and market conditions. Consult a financial advisor for personalized borrowing guidance.</p>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <strong style="color:var(--navy);">Continue reading:</strong><br>
+    <a href="pay-off-mortgage-early.html" style="color:var(--gold);">How to Pay Off Your Mortgage Early: 7 Proven Strategies →</a><br>
+    <a href="debt-avalanche-vs-snowball.html" style="color:var(--gold);">Debt Avalanche vs. Snowball: Which Method Is Right for You? →</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="logo" style="margin-bottom:.75rem;font-size:1.1rem;"><div class="logo-icon" style="width:28px;height:28px;font-size:.9rem;">📊</div>Financ<span>ulator</span></div>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6;">Free financial calculators and plain-English guides to help you make smarter money decisions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Calculators</h4>
+      <ul><li><a href="../mortgage-calculator.html">Mortgage</a></li><li><a href="../compound-interest-calculator.html">Compound Interest</a></li><li><a href="../loan-calculator.html">Loan</a></li><li><a href="../debt-payoff-calculator.html">Debt Payoff</a></li><li><a href="../retirement-calculator.html">Retirement</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Guides</h4>
+      <ul><li><a href="compound-interest-guide.html">Compound Interest</a></li><li><a href="pay-off-mortgage-early.html">Pay Off Mortgage Early</a></li><li><a href="debt-avalanche-vs-snowball.html">Debt Strategies</a></li><li><a href="how-much-to-retire.html">Retirement Planning</a></li><li><a href="50-30-20-budget-rule.html">50/30/20 Budgeting</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul><li><a href="../about.html">About</a></li><li><a href="../privacy.html">Privacy Policy</a></li><li><a href="../terms.html">Terms of Use</a></li><li><a href="../contact.html">Contact</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Financulator. For informational purposes only — not financial advice. <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a></p></div>
+</footer>
+
+</body>
+</html>
